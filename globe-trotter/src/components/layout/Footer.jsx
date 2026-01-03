@@ -18,7 +18,7 @@ const Footer = () => {
             </svg>
           </div>
           <span className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-            GlobeTrip
+            GlobeTrotter
           </span>
         </div>
         <p className="text-gray-400 text-sm leading-relaxed">
@@ -110,7 +110,7 @@ const Footer = () => {
     <div className="pt-8 border-t border-gray-800">
       <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <p className="text-gray-500 text-sm">
-          © {new Date().getFullYear()} GlobeTrip. All rights reserved.
+          © {new Date().getFullYear()} GlobeTrotter. All rights reserved.
         </p>
         <div className="flex space-x-6 text-sm">
           <Link to="#" className="text-gray-500 hover:text-green-400 transition-colors">
