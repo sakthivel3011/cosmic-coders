@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import Sidebar, { MobileSidebar } from './components/layout/Sidebar';
 import LoadingSpinner from './components/common/LoadingSpinner';
 
 // Import Pages
@@ -45,46 +44,22 @@ const PrivateRoute = ({ children }) => {
 
 // Layout Component
 const Layout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   
-  // Hide sidebar on auth pages
-  const hideSidebar = ['/login', '/signup', '/share'].some(path => 
+  // Hide header/footer on auth pages
+  const hideLayout = ['/login', '/signup', '/share'].some(path => 
     location.pathname.startsWith(path)
   );
 
-  // Close sidebar when route changes
-  useEffect(() => {
-    setSidebarOpen(false);
-  }, [location.pathname]);
-
   return (
-    <div className="min-h-screen flex flex-col bg-gt-bg-light">
-      {!hideSidebar && <Header onMenuClick={() => setSidebarOpen(true)} />}
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {!hideLayout && <Header />}
       
-      <div className="flex flex-1">
-        {/* Desktop Sidebar */}
-        {!hideSidebar && (
-          <div className="hidden lg:block">
-            <Sidebar />
-          </div>
-        )}
-        
-        {/* Mobile Sidebar */}
-        {!hideSidebar && (
-          <MobileSidebar 
-            isOpen={sidebarOpen} 
-            onClose={() => setSidebarOpen(false)} 
-          />
-        )}
-        
-        {/* Main Content */}
-        <main className="flex-1 overflow-x-hidden">
-          {children}
-        </main>
-      </div>
+      <main className="flex-1">
+        {children}
+      </main>
       
-      {!hideSidebar && <Footer />}
+      {!hideLayout && <Footer />}
     </div>
   );
 };
