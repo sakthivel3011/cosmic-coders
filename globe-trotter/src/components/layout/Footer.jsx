@@ -10,7 +10,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <FiGlobe className="text-3xl" />
-              <span className="text-xl font-bold">GlobeTrotter</span>
+              <span className="text-xl font-bold">GlobeTrip</span>
             </div>
             <p className="text-gray-300">
               Plan your perfect journey with our intelligent travel planner.
