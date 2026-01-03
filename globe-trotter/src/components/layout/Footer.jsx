@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FiGlobe, FiMapPin, FiMail, FiPhone } from 'react-icons/fi';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
