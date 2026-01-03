@@ -48,7 +48,6 @@ const PrivateRoute = ({ children }) => {
 // Layout Component
 const Layout = ({ children }) => {
   const location = useLocation();
-  const { darkMode } = useAuth();
   
   // Hide header/footer on auth pages
   const hideLayout = ['/login', '/signup', '/share'].some(path => 
@@ -56,9 +55,7 @@ const Layout = ({ children }) => {
   );
 
   return (
-    <div className={`min-h-screen flex flex-col transition-colors duration-300 ${
-      darkMode ? 'bg-gray-900' : 'bg-gray-50'
-    }`}>
+    <div className="min-h-screen flex flex-col transition-colors duration-300 bg-gray-50 dark:bg-gray-900">
       {!hideLayout && <Header />}
       
       <main className="flex-1">
