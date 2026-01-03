@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTrips } from '../../hooks/useTrips';
-import TripCard from '../../components/trip/TripCard';
+import { useTrips } from '../hooks/useTrips';
+import TripCard from '../components/trip/TripCard';
 import { 
   FiPlus, FiCalendar, FiMapPin, FiDollarSign, 
-  FiTrendingUp, FiCompass 
+  FiCompass, FiTrendingUp 
 } from 'react-icons/fi';
-import './DashboardPage.css';
 
 const DashboardPage = () => {
   const { trips, loading, getTrips } = useTrips();
@@ -40,7 +39,6 @@ const DashboardPage = () => {
 
   return (
     <div className="page-padding fade-in">
-      {/* Welcome Section */}
       <div className="mb-8 md:mb-12">
         <h1 className="heading-primary">Welcome to GlobeTrotter</h1>
         <p className="text-lg text-gt-text-secondary">
@@ -48,9 +46,8 @@ const DashboardPage = () => {
         </p>
       </div>
 
-      {/* Stats Cards - Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="dashboard-widget">
+        <div className="card-padded">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gt-text-muted">Total Trips</p>
@@ -60,7 +57,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="dashboard-widget">
+        <div className="card-padded">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gt-text-muted">Total Budget</p>
@@ -72,7 +69,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="dashboard-widget">
+        <div className="card-padded">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gt-text-muted">Cities Visited</p>
@@ -82,7 +79,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="dashboard-widget">
+        <div className="card-padded">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gt-text-muted">Planning</p>
@@ -95,7 +92,6 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
       <div className="mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h2 className="heading-secondary">Your Trips</h2>
@@ -104,9 +100,8 @@ const DashboardPage = () => {
           </Link>
         </div>
 
-        {/* Trips Grid - Responsive */}
         {trips && trips.length > 0 ? (
-          <div className="grid-trip-cards">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {trips.map((trip) => (
               <TripCard key={trip.id} trip={trip} />
             ))}
@@ -121,34 +116,6 @@ const DashboardPage = () => {
             </Link>
           </div>
         )}
-      </div>
-
-      {/* Recent Activity */}
-      <div className="card-padded">
-        <h2 className="heading-secondary mb-6">Recent Activity</h2>
-        <div className="space-y-4">
-          {trips && trips.slice(0, 3).map((trip) => (
-            <div key={trip.id} className="flex items-center justify-between p-3 bg-gt-bg-section rounded-lg">
-              <div>
-                <h4 className="font-medium">{trip.name}</h4>
-                <p className="text-sm text-gt-text-muted">
-                  {trip.startDate} - {trip.endDate}
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm bg-gt-soft text-gt-primary px-3 py-1 rounded-full">
-                  {trip.cities?.length || 0} cities
-                </span>
-                <Link 
-                  to={`/trip/${trip.id}/view`}
-                  className="text-sm text-gt-primary hover:underline"
-                >
-                  View →
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );

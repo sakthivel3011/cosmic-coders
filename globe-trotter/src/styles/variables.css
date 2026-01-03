@@ -1,0 +1,321 @@
+/* ================================
+   CSS Custom Properties (CSS Variables)
+   ================================ */
+
+:root {
+  /* ===== COLOR PALETTE ===== */
+  /* Primary Greens */
+  --color-gt-primary: #1b5e20;
+  --color-gt-primary-dark: #0d3a10;
+  --color-gt-primary-light: #2e7d32;
+  
+  /* Secondary Greens */
+  --color-gt-secondary: #43a047;
+  --color-gt-secondary-dark: #2e7d32;
+  --color-gt-secondary-light: #66bb6a;
+  
+  /* Accent Greens */
+  --color-gt-accent: #81c784;
+  --color-gt-accent-dark: #66bb6a;
+  --color-gt-accent-light: #a5d6a7;
+  
+  /* Soft Greens */
+  --color-gt-soft: #c8e6c9;
+  --color-gt-softer: #e8f5e9;
+  --color-gt-lightest: #f4fdf6;
+  
+  /* Dark Greens */
+  --color-gt-dark: #102a13;
+  --color-gt-darker: #0a1c0c;
+  
+  /* Neutral Colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-success-dark: #059669;
+  
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-dark: #d97706;
+  
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-dark: #dc2626;
+  
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-dark: #1d4ed8;
+  
+  /* ===== BACKGROUND COLORS ===== */
+  --color-bg-main: var(--color-white);
+  --color-bg-light: var(--color-gt-lightest);
+  --color-bg-section: var(--color-gt-softer);
+  --color-bg-card: var(--color-white);
+  --color-bg-dark: var(--color-gt-dark);
+  --color-bg-darker: var(--color-gt-darker);
+  
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+  --color-bg-modal: rgba(255, 255, 255, 0.95);
+  
+  /* ===== TEXT COLORS ===== */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-700);
+  --color-text-tertiary: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-light: var(--color-white);
+  --color-text-dark: var(--color-gt-dark);
+  
+  /* ===== BORDER COLORS ===== */
+  --color-border-light: var(--color-gt-soft);
+  --color-border-medium: var(--color-gray-300);
+  --color-border-dark: var(--color-gt-primary);
+  --color-border-focus: var(--color-gt-secondary);
+  
+  /* ===== SHADOWS ===== */
+  --shadow-xs: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  --shadow-gt-soft: 0 4px 12px rgba(27, 94, 32, 0.08);
+  --shadow-gt-card: 0 6px 20px rgba(27, 94, 32, 0.1);
+  --shadow-gt-elevated: 0 8px 30px rgba(27, 94, 32, 0.15);
+  
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* ===== BORDER RADIUS ===== */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  --radius-gt-base: var(--radius-xl);
+  --radius-gt-card: var(--radius-2xl);
+  --radius-gt-button: var(--radius-lg);
+  
+  /* ===== SPACING ===== */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  
+  /* ===== TYPOGRAPHY ===== */
+  /* Font Families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: 'SF Mono', 'Roboto Mono', Menlo, Monaco, Consolas, monospace;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+  --text-9xl: 8rem;
+  
+  /* Font Weights */
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  
+  /* ===== TRANSITIONS & ANIMATIONS ===== */
+  /* Durations */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+  
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ===== Z-INDEX ===== */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-auto: auto;
+  
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* ===== BREAKPOINTS ===== */
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* ===== LAYOUT ===== */
+  --header-height: 64px;
+  --footer-height: 80px;
+  --sidebar-width: 256px;
+  --sidebar-width-collapsed: 80px;
+  
+  /* ===== COMPONENT SPECIFIC ===== */
+  /* Button */
+  --button-height-sm: 2rem;
+  --button-height-md: 2.5rem;
+  --button-height-lg: 3rem;
+  
+  /* Input */
+  --input-height-sm: 2rem;
+  --input-height-md: 2.5rem;
+  --input-height-lg: 3rem;
+  
+  /* Card */
+  --card-padding-sm: 1rem;
+  --card-padding-md: 1.5rem;
+  --card-padding-lg: 2rem;
+  
+  /* Modal */
+  --modal-width-sm: 24rem;
+  --modal-width-md: 28rem;
+  --modal-width-lg: 32rem;
+  --modal-width-xl: 36rem;
+  --modal-width-2xl: 42rem;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  /* Background Colors */
+  --color-bg-main: var(--color-gray-900);
+  --color-bg-light: var(--color-gray-800);
+  --color-bg-section: var(--color-gray-700);
+  --color-bg-card: var(--color-gray-800);
+  --color-bg-dark: var(--color-black);
+  
+  /* Text Colors */
+  --color-text-primary: var(--color-white);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-tertiary: var(--color-gray-400);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-light: var(--color-white);
+  --color-text-dark: var(--color-gray-900);
+  
+  /* Border Colors */
+  --color-border-light: var(--color-gray-700);
+  --color-border-medium: var(--color-gray-600);
+  --color-border-dark: var(--color-gray-500);
+  --color-border-focus: var(--color-gt-secondary-light);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  
+  --shadow-gt-soft: 0 4px 12px rgba(27, 94, 32, 0.2);
+  --shadow-gt-card: 0 6px 20px rgba(27, 94, 32, 0.25);
+  --shadow-gt-elevated: 0 8px 30px rgba(27, 94, 32, 0.3);
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-gt-primary: #004d00;
+    --color-gt-secondary: #006600;
+    --color-text-primary: #000000;
+    --color-text-secondary: #333333;
+    --color-border-dark: #000000;
+  }
+}
+
+/* Motion Reduction */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-75: 0s;
+    --duration-100: 0s;
+    --duration-150: 0s;
+    --duration-200: 0s;
+    --duration-300: 0s;
+    --duration-500: 0s;
+    --duration-700: 0s;
+    --duration-1000: 0s;
+  }
+}
+
+/* Print Styles */
+@media print {
+  :root {
+    --color-bg-main: #ffffff;
+    --color-text-primary: #000000;
+    --color-text-secondary: #333333;
+    --shadow-md: none;
+    --shadow-lg: none;
+  }
+}

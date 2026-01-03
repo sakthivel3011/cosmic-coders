@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiMapPin, FiCalendar, FiUsers, FiDollarSign } from 'react-icons/fi';
-import './TripCard.css';
+import { FiMapPin, FiCalendar, FiDollarSign } from 'react-icons/fi';
 
 const TripCard = ({ trip }) => {
   const formatDate = (dateString) => {
@@ -15,16 +14,12 @@ const TripCard = ({ trip }) => {
   return (
     <div className="trip-card scale-hover">
       <div className="relative">
-        {/* Trip Image/Color Header */}
-        <div 
-          className="h-40 rounded-t-xl mb-4 bg-gradient-to-r from-gt-primary to-gt-accent flex items-center justify-center"
-        >
+        <div className="h-40 rounded-t-xl mb-4 bg-gradient-to-r from-gt-primary to-gt-accent flex items-center justify-center">
           <span className="text-white text-xl font-bold">
             {trip.name.substring(0, 2).toUpperCase()}
           </span>
         </div>
         
-        {/* Status Badge */}
         <div className="absolute top-4 right-4">
           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
             trip.status === 'completed' 
@@ -38,7 +33,6 @@ const TripCard = ({ trip }) => {
         </div>
       </div>
 
-      {/* Trip Info */}
       <div className="p-4">
         <h3 className="text-lg font-bold text-gray-800 mb-2 truncate">
           {trip.name}
@@ -63,7 +57,6 @@ const TripCard = ({ trip }) => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-gray-100">
           <Link 
             to={`/trip/${trip.id}/view`}
