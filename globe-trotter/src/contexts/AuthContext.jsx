@@ -26,6 +26,9 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password, displayName) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(userCredential.user, { displayName });
+    // Reload user to get updated profile
+    await userCredential.user.reload();
+    setUser(auth.currentUser);
     return userCredential.user;
   };
 
