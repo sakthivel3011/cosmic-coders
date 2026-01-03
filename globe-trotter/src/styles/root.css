@@ -1,0 +1,38 @@
+/* ================================
+   GlobeTrotter Root Theme Colors
+   Green • Dark Green • White
+   ================================ */
+
+:root {
+  /* ===== Primary Greens ===== */
+  --green-primary: #1b5e20;        /* Dark Green (Main) */
+  --green-secondary: #2e7d32;      /* Medium Green */
+  --green-accent: #43a047;         /* Accent Green */
+  --green-light: #81c784;          /* Light Green */
+  --green-soft: #c8e6c9;           /* Very Light Green */
+
+  /* ===== Background Colors ===== */
+  --bg-main: #ffffff;              /* White */
+  --bg-light: #f4fdf6;             /* Light Greenish White */
+  --bg-section: #e8f5e9;            /* Section Background */
+  --bg-card: #ffffff;              /* Card Background */
+  --bg-dark: #102a13;               /* Dark Green Background */
+
+  /* ===== Text Colors ===== */
+  --text-primary: #1b1b1b;          /* Main Text */
+  --text-secondary: #4f4f4f;        /* Secondary Text */
+  --text-light: #ffffff;            /* White Text */
+  --text-muted: #7a7a7a;            /* Muted Text */
+
+  /* ===== Border & Divider ===== */
+  --border-light: #d0e8d4;
+  --border-dark: #1b5e20;
+
+  /* ===== Status Colors ===== */
+  --success: #2e7d32;
+  --warning: #f9a825;
+  --error: #c62828;
+
+  /* ===== Shadow ===== */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
