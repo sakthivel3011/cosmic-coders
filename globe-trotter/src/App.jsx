@@ -18,6 +18,7 @@ import ItineraryViewPage from './pages/ItineraryViewPage';
 import BudgetPage from './pages/BudgetPage';
 import ProfilePage from './pages/ProfilePage';
 import ShareTripPage from './pages/ShareTripPage';
+import SharedTripsPage from './pages/SharedTripsPage';
 import Settings from './pages/Settings';
 
 // Import global styles
@@ -130,6 +131,12 @@ function App() {
             <Route path="/profile" element={
               <PrivateRoute>
                 <ProfilePage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/shared" element={
+              <PrivateRoute>
+                <SharedTripsPage />
               </PrivateRoute>
             } />
             
