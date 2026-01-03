@@ -45,7 +45,7 @@ const Footer = () => {
               <a href="#" className="text-gray-300 hover:text-white text-xl"><FiInstagram /></a>
             </div>
             <p className="text-gray-300 mt-4 text-sm">
-              © {new Date().getFullYear()} GlobeTrotter. All rights reserved.
+              © {new Date().getFullYear()} GlobeTrip. All rights reserved.
             </p>
           </div>
         </div>
