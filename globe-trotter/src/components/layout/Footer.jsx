@@ -4,18 +4,28 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* About */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Globe Trotter
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Plan your trips, track your budget, and explore the world with ease.
-            </p>
+<footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white mt-auto">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {/* Main Footer Content */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      {/* Brand Section */}
+      <div className="space-y-4">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-gradient-to-br from-green-500 to-green-600 rounded-lg">
+            <FiGlobe className="text-2xl text-white" />
           </div>
+          <span className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+            GlobeTrotter
+          </span>
+        </div>
+        <p className="text-gray-400 text-sm leading-relaxed">
+          Your intelligent travel companion for planning unforgettable journeys around the world.
+        </p>
+        <div className="flex items-center space-x-2 text-gray-400 text-sm">
+          <FiMapPin className="flex-shrink-0" />
+          <span>Making travel planning simple</span>
+        </div>
+      </div>
 
           {/* Quick Links */}
           <div>
@@ -90,14 +100,27 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-          <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
-            &copy; {currentYear} Globe Trotter. All rights reserved.
-          </p>
+    {/* Bottom Bar */}
+    <div className="pt-8 border-t border-gray-800">
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <p className="text-gray-500 text-sm">
+          © {new Date().getFullYear()} GlobeTrotter. All rights reserved.
+        </p>
+        <div className="flex space-x-6 text-sm">
+          <Link to="#" className="text-gray-500 hover:text-green-400 transition-colors">
+            Privacy Policy
+          </Link>
+          <Link to="#" className="text-gray-500 hover:text-green-400 transition-colors">
+            Terms of Service
+          </Link>
+          <Link to="#" className="text-gray-500 hover:text-green-400 transition-colors">
+            Cookie Policy
+          </Link>
         </div>
       </div>
-    </footer>
+    </div>
+  </div>
+</footer>
   );
 };
 
