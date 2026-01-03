@@ -1,35 +1,199 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './hooks/useAuth';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import Sidebar, { MobileSidebar } from './components/layout/Sidebar';
+import LoadingSpinner from './components/common/LoadingSpinner';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Import Pages
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import DashboardPage from './pages/DashboardPage';
+import CreateTripPage from './pages/CreateTripPage';
+import MyTripsPage from './pages/MyTripsPage';
+import ItineraryBuilderPage from './pages/ItineraryBuilderPage';
+import ItineraryViewPage from './pages/ItineraryViewPage';
+import BudgetPage from './pages/BudgetPage';
+import ProfilePage from './pages/ProfilePage';
+import ShareTripPage from './pages/ShareTripPage';
+
+// Import global styles
+import './styles/global.css';
+import './styles/variables.css';
+
+// Private Route Component
+const PrivateRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="xl" text="Loading..." />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+// Layout Component
+const Layout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  
+  // Hide sidebar on auth pages
+  const hideSidebar = ['/login', '/signup', '/share'].some(path => 
+    location.pathname.startsWith(path)
+  );
+
+  // Close sidebar when route changes
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen flex flex-col bg-gt-bg-light">
+      {!hideSidebar && <Header onMenuClick={() => setSidebarOpen(true)} />}
+      
+      <div className="flex flex-1">
+        {/* Desktop Sidebar */}
+        {!hideSidebar && (
+          <div className="hidden lg:block">
+            <Sidebar />
+          </div>
+        )}
+        
+        {/* Mobile Sidebar */}
+        {!hideSidebar && (
+          <MobileSidebar 
+            isOpen={sidebarOpen} 
+            onClose={() => setSidebarOpen(false)} 
+          />
+        )}
+        
+        {/* Main Content */}
+        <main className="flex-1 overflow-x-hidden">
+          {children}
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      
+      {!hideSidebar && <Footer />}
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/share/:tripId" element={<ShareTripPage />} />
+            
+            {/* Protected Routes */}
+            <Route path="/" element={
+              <PrivateRoute>
+                <Navigate to="/dashboard" replace />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <DashboardPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/create-trip" element={
+              <PrivateRoute>
+                <CreateTripPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/my-trips" element={
+              <PrivateRoute>
+                <MyTripsPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/trip/:tripId/build" element={
+              <PrivateRoute>
+                <ItineraryBuilderPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/trip/:tripId/view" element={
+              <PrivateRoute>
+                <ItineraryViewPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/trip/:tripId/budget" element={
+              <PrivateRoute>
+                <BudgetPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/profile" element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            } />
+            
+            {/* 404 Route */}
+            <Route path="*" element={
+              <div className="min-h-[80vh] flex items-center justify-center">
+                <div className="text-center">
+                  <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
+                  <p className="text-gray-600 mb-6">Page not found</p>
+                  <a 
+                    href="/dashboard" 
+                    className="btn-primary inline-block"
+                  >
+                    Go to Dashboard
+                  </a>
+                </div>
+              </div>
+            } />
+          </Routes>
+        </Layout>
+        
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: 'var(--color-bg-card)',
+              color: 'var(--color-text-primary)',
+              border: '1px solid var(--color-border-light)',
+              boxShadow: 'var(--shadow-lg)',
+            },
+            success: {
+              iconTheme: {
+                primary: 'var(--color-success)',
+                secondary: 'var(--color-white)',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: 'var(--color-error)',
+                secondary: 'var(--color-white)',
+              },
+            },
+          }}
+        />
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;

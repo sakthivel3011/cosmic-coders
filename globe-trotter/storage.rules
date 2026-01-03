@@ -1,0 +1,26 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // User can upload their own profile pictures
+    match /profile-pictures/{userId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Trip images can be uploaded by trip owners
+    match /trip-images/{tripId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/trips/$(tripId)) &&
+        get(/databases/$(database)/documents/trips/$(tripId)).data.userId == request.auth.uid;
+    }
+    
+    // Activity images can be uploaded by trip owners
+    match /activity-images/{tripId}/{activityId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/trips/$(tripId)) &&
+        get(/databases/$(database)/documents/trips/$(tripId)).data.userId == request.auth.uid;
+    }
+  }
+}
