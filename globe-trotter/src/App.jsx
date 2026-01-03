@@ -19,6 +19,7 @@ import BudgetPage from './pages/BudgetPage';
 import ExplorePage from './pages/ExplorePage';
 import ProfilePage from './pages/ProfilePage';
 import ShareTripPage from './pages/ShareTripPage';
+import SharedTripsPage from './pages/SharedTripsPage';
 import Settings from './pages/Settings';
 
 // Import global styles
@@ -71,7 +72,12 @@ const Layout = ({ children }) => {
 
 function App() {
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <AuthProvider>
         <Layout>
           <Routes>
@@ -133,6 +139,12 @@ function App() {
             <Route path="/profile" element={
               <PrivateRoute>
                 <ProfilePage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/shared" element={
+              <PrivateRoute>
+                <SharedTripsPage />
               </PrivateRoute>
             } />
             
