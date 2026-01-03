@@ -117,8 +117,16 @@
 @layer components {
   /* Container */
   .container-responsive {
-    @apply w-full px-4 sm:px-6 lg:px-8 mx-auto;
+    @apply w-full px-4 mx-auto;
     max-width: 100%;
+  }
+
+  @screen sm {
+    .container-responsive { @apply px-6; }
+  }
+
+  @screen lg {
+    .container-responsive { @apply px-8; }
   }
 
   /* Buttons */
@@ -246,7 +254,19 @@
 
   /* Grid Layouts */
   .grid-responsive {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+    @apply grid grid-cols-1 gap-6;
+  }
+
+  @screen sm {
+    .grid-responsive { @apply grid-cols-2; }
+  }
+
+  @screen lg {
+    .grid-responsive { @apply grid-cols-3; }
+  }
+
+  @screen xl {
+    .grid-responsive { @apply grid-cols-4; }
   }
 
   .grid-trip-cards {
@@ -259,7 +279,15 @@
   }
 
   .page-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-6 sm:py-8;
+    @apply px-4 py-6;
+  }
+
+  @screen sm {
+    .page-padding { @apply px-6 py-8; }
+  }
+
+  @screen lg {
+    .page-padding { @apply px-8; }
   }
 
   /* Typography Utilities */
@@ -281,7 +309,11 @@
 
   /* Trip Components */
   .trip-card {
-    @apply card-base p-4 sm:p-6 cursor-pointer hover:translate-y-[-4px];
+    @apply card-base p-4 cursor-pointer hover:translate-y-[-4px];
+  }
+
+  @screen sm {
+    .trip-card { @apply p-6; }
   }
 
   .activity-card {
@@ -294,7 +326,11 @@
 
   /* Dashboard Widgets */
   .dashboard-widget {
-    @apply card-base p-5 sm:p-6;
+    @apply card-base p-5;
+  }
+
+  @screen sm {
+    .dashboard-widget { @apply p-6; }
   }
 
   .stat-card {
