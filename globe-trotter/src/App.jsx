@@ -18,6 +18,7 @@ import ItineraryViewPage from './pages/ItineraryViewPage';
 import BudgetPage from './pages/BudgetPage';
 import ProfilePage from './pages/ProfilePage';
 import ShareTripPage from './pages/ShareTripPage';
+import Settings from './pages/Settings';
 
 // Import global styles
 import './styles/global.css';
@@ -45,6 +46,7 @@ const PrivateRoute = ({ children }) => {
 // Layout Component
 const Layout = ({ children }) => {
   const location = useLocation();
+  const { darkMode } = useAuth();
   
   // Hide header/footer on auth pages
   const hideLayout = ['/login', '/signup', '/share'].some(path => 
@@ -52,7 +54,9 @@ const Layout = ({ children }) => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className={`min-h-screen flex flex-col transition-colors duration-300 ${
+      darkMode ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       {!hideLayout && <Header />}
       
       <main className="flex-1">
@@ -121,6 +125,12 @@ function App() {
             <Route path="/profile" element={
               <PrivateRoute>
                 <ProfilePage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="/settings" element={
+              <PrivateRoute>
+                <Settings />
               </PrivateRoute>
             } />
             

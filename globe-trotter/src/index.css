@@ -1611,3 +1611,61 @@
     /* Add Edge specific fixes here */
   }
 }
+
+/* ===== DATE PICKER CUSTOM STYLES ===== */
+/* Hide default calendar picker indicator since we have custom icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  opacity: 0;
+  cursor: default;
+}
+
+/* Webkit date input calendar styling */
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  color: #6b7280;
+  padding: 0 0.25rem;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #1f2937;
+  padding: 0 0.25rem;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus {
+  background-color: #d1fae5;
+  color: #059669;
+  outline: none;
+}
+
+/* Firefox date input styling */
+input[type="date"]::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Custom calendar dropdown styling */
+input[type="date"] {
+  color-scheme: light;
+  accent-color: #10b981;
+}
+
+/* Calendar popup styling - Chrome/Edge/Safari */
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background: transparent;
+}
+
+/* Force light theme for calendar dropdown */
+@media (prefers-color-scheme: dark) {
+  input[type="date"] {
+    color-scheme: light;
+    accent-color: #10b981;
+  }
+}

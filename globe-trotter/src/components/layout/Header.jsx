@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, darkMode } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -27,20 +27,29 @@ const Header = () => {
   const navItems = [
     { title: 'Dashboard', icon: <MdDashboard />, path: '/dashboard' },
     { title: 'Create Trip', icon: <FiPlusCircle />, path: '/create-trip', badge: 'New' },
-    { title: 'Explore', icon: <MdOutlineTravelExplore />, path: '/explore', badge: 'Hot' },
-    { title: 'Shared Trips', icon: <FiShare2 />, path: '/shared' }
+    { title: 'Explore', icon: <MdOutlineTravelExplore />, path: '/explore', badge: 'Hot' }
   ];
 
   return (
-    <header className="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
+    <header className={`shadow-md border-b sticky top-0 z-50 transition-colors duration-300 ${
+      darkMode 
+        ? 'bg-gray-800 border-gray-700' 
+        : 'bg-white border-gray-200'
+    }`}>
       <nav className="w-full px-4 sm:px-6 lg:px-8"> 
         <div className="flex items-center h-16">
           {/* Logo - Full Left */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0 mr-8">
-            <FiGlobe className="text-3xl text-gt-primary" />
+            <FiGlobe className={`text-3xl ${
+              darkMode ? 'text-green-400' : 'text-gt-primary'
+            }`} />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-gt-primary">GlobeTrip</span>
-              <span className="text-xs text-gray-500">Travel Planner</span>
+              <span className={`text-xl font-bold ${
+                darkMode ? 'text-green-400' : 'text-gt-primary'
+              }`}>GlobeTrip</span>
+              <span className={`text-xs ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>Travel Planner</span>
             </div>
           </Link>
 
@@ -55,8 +64,12 @@ const Header = () => {
                     className={({ isActive }) => `
                       flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all
                       ${isActive 
-                        ? 'bg-gt-primary text-white shadow-sm' 
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-gt-primary'
+                        ? darkMode
+                          ? 'bg-green-600 text-white shadow-sm'
+                          : 'bg-gt-primary text-white shadow-sm'
+                        : darkMode
+                          ? 'text-gray-300 hover:bg-gray-700 hover:text-green-400'
+                          : 'text-gray-700 hover:bg-gray-100 hover:text-gt-primary'
                       }
                     `}
                   >
@@ -75,19 +88,41 @@ const Header = () => {
               
               {/* Profile Dropdown */}
               <div className="relative group">
-                <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
-                  <FiUser className="text-xl text-gray-700" />
-                  <span className="text-sm font-medium text-gray-700">Profile</span>
+                <button className={`flex items-center gap-2 px-3 py-2 rounded-lg transition ${
+                  darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                }`}>
+                  <FiUser className={`text-xl ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`} />
+                  <span className={`text-sm font-medium ${
+                    darkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>Profile</span>
                 </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <div className="px-4 py-3 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900 truncate">{user?.email}</p>
+                <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ${
+                  darkMode 
+                    ? 'bg-gray-800 border-gray-700' 
+                    : 'bg-white border-gray-200'
+                }`}>
+                  <div className={`px-4 py-3 border-b ${
+                    darkMode ? 'border-gray-700' : 'border-gray-100'
+                  }`}>
+                    <p className={`text-sm font-medium truncate ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>{user?.email}</p>
                     <p className="text-xs text-green-600">Signed in</p>
                   </div>
-                  <Link to="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-gray-700">
+                  <Link to="/profile" className={`flex items-center gap-2 px-4 py-2 ${
+                    darkMode 
+                      ? 'text-gray-300 hover:bg-gray-700' 
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}>
                     <FiUser /> Profile
                   </Link>
-                  <Link to="/settings" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 text-gray-700">
+                  <Link to="/settings" className={`flex items-center gap-2 px-4 py-2 ${
+                    darkMode 
+                      ? 'text-gray-300 hover:bg-gray-700' 
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}>
                     <FiSettings /> Settings
                   </Link>
                   <button 

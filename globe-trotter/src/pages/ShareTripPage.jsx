@@ -1,231 +1,228 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { db } from '../firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
-import { 
-  FiShare2, FiCopy, FiFacebook, FiTwitter, 
-  FiInstagram, FiMail, FiCalendar, FiMapPin, 
-  FiDollarSign, FiGlobe 
-} from 'react-icons/fi';
-import toast from 'react-hot-toast';
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../firebase/config";
+import { doc, getDoc } from "firebase/firestore";
 
-const ShareTripPage = () => {
+export default function ShareTripPage() {
   const { tripId } = useParams();
-  const [trip, setTrip] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const linkRef = useRef(null);
   const [copied, setCopied] = useState(false);
+  const [trip, setTrip] = useState(null);
+  const [ownerName, setOwnerName] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTrip = async () => {
+    const fetchTripData = async () => {
+      if (!tripId) return;
+
       try {
-        const docRef = doc(db, 'trips', tripId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setTrip({ id: docSnap.id, ...docSnap.data() });
+        const tripRef = doc(db, "trips", tripId);
+        const tripSnap = await getDoc(tripRef);
+
+        if (tripSnap.exists()) {
+          const tripData = { id: tripSnap.id, ...tripSnap.data() };
+          setTrip(tripData);
+
+          // Fetch owner's profile data if userId exists
+          if (tripData.userId) {
+            const userRef = doc(db, "users", tripData.userId);
+            const userSnap = await getDoc(userRef);
+            
+            if (userSnap.exists()) {
+              setOwnerName(userSnap.data().displayName || "Anonymous User");
+            } else {
+              // Fallback: try to get from creatorName field or default
+              setOwnerName(tripData.creatorName || "Anonymous User");
+            }
+          } else {
+            setOwnerName(tripData.creatorName || "Anonymous User");
+          }
         }
       } catch (error) {
-        console.error('Error fetching trip:', error);
+        console.error("Error fetching trip:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTrip();
+    fetchTripData();
   }, [tripId]);
 
-  const shareUrl = window.location.href;
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareUrl);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(linkRef.current.value);
     setCopied(true);
-    toast.success('Link copied to clipboard!');
-    setTimeout(() => setCopied(false), 3000);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const shareOnFacebook = () => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+  const calculateDuration = () => {
+    if (!trip?.startDate || !trip?.endDate) return "N/A";
+    const start = new Date(trip.startDate);
+    const end = new Date(trip.endDate);
+    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    return `${days} Days`;
   };
 
-  const shareOnTwitter = () => {
-    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=Check out my trip on GlobeTrotter!`, '_blank');
+  const getCitiesCount = () => {
+    return trip?.cities?.length || trip?.destinations?.length || 0;
+  };
+
+  const getActivitiesCount = () => {
+    return trip?.activities?.length || 0;
   };
 
   if (loading) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gt-primary"></div>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
       </div>
     );
   }
 
   if (!trip) {
     return (
-      <div className="page-padding text-center">
-        <div className="card-padded max-w-md mx-auto">
-          <FiGlobe className="text-6xl text-gray-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Trip Not Found</h2>
-          <p className="text-gray-600 mb-6">This trip doesn't exist or has been made private.</p>
-          <Link to="/" className="btn-primary">Go to Home</Link>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Trip Not Found</h2>
+          <p className="text-gray-600">This trip doesn't exist or is no longer available.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gt-bg-light to-white">
-      <div className="page-padding">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <FiGlobe className="text-5xl text-gt-primary mx-auto mb-4" />
-            <h1 className="heading-primary">{trip.name}</h1>
-            <p className="text-gray-600">Shared via GlobeTrotter</p>
+    <div className="min-h-screen bg-gray-100">
+      {/* HERO */}
+      <div className="bg-gradient-to-r from-green-700 to-green-500 text-white p-8">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-6">
+          <div>
+            <h1 className="text-3xl font-bold">{trip.name || "Untitled Trip"}</h1>
+            <p className="opacity-90 mt-2">
+              Shared by {ownerName} • Created with GlobeTrotter
+            </p>
+          </div>
+          <span className="bg-white/20 px-4 py-2 rounded-full self-start">
+            {trip.status || "Upcoming Trip"}
+          </span>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* LEFT */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* STATS */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              ["Duration", calculateDuration()],
+              ["Cities", getCitiesCount()],
+              ["Budget", trip.budget ? `$${trip.budget.toLocaleString()}` : "N/A"],
+              ["Activities", getActivitiesCount()],
+            ].map(([label, value]) => (
+              <div
+                key={label}
+                className="bg-white rounded-xl p-4 text-center shadow"
+              >
+                <p className="text-sm text-gray-500">{label}</p>
+                <p className="font-bold text-lg">{value}</p>
+              </div>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Trip Info */}
-            <div className="lg:col-span-2">
-              <div className="card-padded mb-8">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-gray-800">Trip Overview</h2>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    trip.status === 'completed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : trip.status === 'ongoing'
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {trip.status || 'planning'}
-                  </span>
-                </div>
+          {/* OVERVIEW */}
+          <div className="bg-white rounded-2xl p-6 shadow">
+            <h2 className="text-xl font-bold mb-4">Trip Overview</h2>
+            <p className="text-gray-600">
+              {trip.description || "No description available for this trip."}
+            </p>
+          </div>
 
-                <p className="text-gray-700 mb-6">{trip.description || 'No description provided.'}</p>
+          {/* ITINERARY */}
+          {trip.itinerary && trip.itinerary.length > 0 && (
+            <div className="bg-white rounded-2xl p-6 shadow">
+              <h2 className="text-xl font-bold mb-6">Itinerary Preview</h2>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-gt-bg-section p-4 rounded-lg">
-                    <FiCalendar className="text-gt-primary mb-2" />
-                    <p className="text-sm text-gray-600">Duration</p>
-                    <p className="font-semibold">
-                      {new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}
+              <div className="space-y-6">
+                {trip.itinerary.map((item, index) => (
+                  <div key={index} className="border-l-4 border-green-600 pl-4">
+                    <h3 className="font-bold text-lg">{item.city || item.destination}</h3>
+                    <p className="text-sm text-gray-500">
+                      {item.days || `Day ${index + 1}`}
                     </p>
-                  </div>
-                  <div className="bg-gt-bg-section p-4 rounded-lg">
-                    <FiMapPin className="text-gt-primary mb-2" />
-                    <p className="text-sm text-gray-600">Cities</p>
-                    <p className="font-semibold">{trip.cities?.length || 0}</p>
-                  </div>
-                  <div className="bg-gt-bg-section p-4 rounded-lg">
-                    <FiDollarSign className="text-gt-primary mb-2" />
-                    <p className="text-sm text-gray-600">Budget</p>
-                    <p className="font-semibold">₹{trip.budget?.toLocaleString() || '0'}</p>
-                  </div>
-                  <div className="bg-gt-bg-section p-4 rounded-lg">
-                    <FiGlobe className="text-gt-primary mb-2" />
-                    <p className="text-sm text-gray-600">Created</p>
-                    <p className="font-semibold">
-                      {new Date(trip.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-padded">
-                <h2 className="text-xl font-bold text-gray-800 mb-6">Itinerary Preview</h2>
-                {trip.cities?.slice(0, 3).map((city, index) => (
-                  <div key={index} className="mb-4 last:mb-0">
-                    <h3 className="font-semibold text-gray-800 mb-2">{city.name}</h3>
-                    <div className="pl-4 border-l-2 border-gt-primary">
-                      {city.activities?.slice(0, 2).map((activity, actIndex) => (
-                        <div key={actIndex} className="mb-2 text-sm text-gray-600">
-                          • {activity.name} - ₹{activity.cost}
-                        </div>
-                      ))}
-                      {city.activities?.length > 2 && (
-                        <div className="text-sm text-gt-primary">
-                          +{city.activities.length - 2} more activities
-                        </div>
-                      )}
-                    </div>
+                    {item.activities && (
+                      <ul className="mt-2 text-gray-600 list-disc ml-4">
+                        {item.activities.map((activity, actIndex) => (
+                          <li key={actIndex}>{activity.name || activity}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
-                {trip.cities?.length > 3 && (
-                  <div className="text-center mt-4">
-                    <p className="text-gt-primary font-medium">
-                      +{trip.cities.length - 3} more cities
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
+          )}
+        </div>
 
-            {/* Right Column - Share Options */}
-            <div>
-              <div className="card-padded sticky top-24">
-                <div className="text-center mb-6">
-                  <FiShare2 className="text-4xl text-gt-primary mx-auto mb-4" />
-                  <h2 className="text-xl font-bold text-gray-800 mb-2">Share this Trip</h2>
-                  <p className="text-gray-600">Inspire others with your travel plans</p>
-                </div>
+        {/* RIGHT */}
+        <div className="space-y-6">
+          {/* SHARE */}
+          <div className="bg-white rounded-2xl p-6 shadow">
+            <h2 className="text-xl font-bold mb-4 text-center">
+              Share This Trip
+            </h2>
 
-                <div className="space-y-4 mb-8">
-                  <button
-                    onClick={handleCopyLink}
-                    className="w-full btn-primary flex items-center justify-center gap-2"
-                  >
-                    <FiCopy /> {copied ? 'Copied!' : 'Copy Link'}
-                  </button>
+            <div className="relative mb-4">
+              <input
+                ref={linkRef}
+                readOnly
+                value={`${window.location.origin}/share/${tripId}`}
+                className="w-full border rounded-lg px-4 py-3 pr-24 text-sm"
+              />
+              <button
+                onClick={handleCopy}
+                className={`absolute right-2 top-2 px-4 py-2 rounded-lg text-white ${
+                  copied ? "bg-green-500" : "bg-green-600"
+                }`}
+              >
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={shareOnFacebook}
-                      className="bg-[#1877F2] hover:bg-[#166FE5] text-white py-3 rounded-lg flex items-center justify-center gap-2 transition"
-                    >
-                      <FiFacebook /> Facebook
-                    </button>
-                    <button
-                      onClick={shareOnTwitter}
-                      className="bg-[#1DA1F2] hover:bg-[#1A91DA] text-white py-3 rounded-lg flex items-center justify-center gap-2 transition"
-                    >
-                      <FiTwitter /> Twitter
-                    </button>
-                  </div>
-
-                  <button className="w-full bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCB045] hover:opacity-90 text-white py-3 rounded-lg flex items-center justify-center gap-2 transition">
-                    <FiInstagram /> Instagram
-                  </button>
-
-                  <button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-lg flex items-center justify-center gap-2 transition">
-                    <FiMail /> Email
-                  </button>
-                </div>
-
-                <div className="pt-6 border-t">
-                  <h3 className="font-semibold text-gray-800 mb-4">Want to create your own trip?</h3>
-                  <Link to="/signup" className="w-full btn-primary block text-center">
-                    Sign Up Free
-                  </Link>
-                  <p className="text-sm text-gray-600 text-center mt-3">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-gt-primary font-medium">
-                      Sign In
-                    </Link>
-                  </p>
-                </div>
-              </div>
+            <div className="space-y-3">
+              <button className="w-full bg-green-500 text-white py-3 rounded-xl">
+                WhatsApp
+              </button>
+              <button className="w-full bg-blue-600 text-white py-3 rounded-xl">
+                Facebook
+              </button>
+              <button className="w-full bg-sky-500 text-white py-3 rounded-xl">
+                Twitter
+              </button>
+              <button className="w-full bg-pink-600 text-white py-3 rounded-xl">
+                Instagram
+              </button>
+              <button className="w-full bg-gray-700 text-white py-3 rounded-xl">
+                Email
+              </button>
             </div>
           </div>
 
-          <div className="text-center mt-12">
-            <p className="text-gray-600 mb-4">
-              Created with ❤️ using GlobeTrotter
+          {/* CTA */}
+          <div className="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-2xl p-6 text-center">
+            <h3 className="text-xl font-bold mb-3">Create Your Own Trip</h3>
+            <p className="mb-4 opacity-90">
+              Plan and share your travel adventures for free.
             </p>
-            <Link to="/" className="text-gt-primary font-semibold hover:underline">
-              Create your own travel plan →
-            </Link>
+            <button className="bg-white text-green-600 font-semibold py-3 px-6 rounded-xl">
+              Sign Up Free
+            </button>
           </div>
         </div>
       </div>
+
+      {/* FOOTER */}
+      <footer className="text-center py-8 text-gray-500">
+        © 2024 GlobeTrotter. All rights reserved.
+      </footer>
     </div>
   );
-};
-
-export default ShareTripPage;
+}

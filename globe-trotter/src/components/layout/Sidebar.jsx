@@ -91,12 +91,6 @@ const Sidebar = ({ isMobile = false, onClose }) => {
       path: '/explore',
       badge: 'Hot',
       variant: 'danger'
-    },
-    {
-      title: 'Shared Trips',
-      icon: <FiShare2 className="w-5 h-5" />,
-      path: '/shared',
-      badge: null
     }
   ];
 
