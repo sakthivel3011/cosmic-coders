@@ -10,7 +10,7 @@ import {
 
 const DashboardPage = () => {
   const { trips, loading, getTrips } = useTrips();
-  const { user } = useAuth();
+  const { user, darkMode } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalTrips: 0,
@@ -69,7 +69,9 @@ const DashboardPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-green-50 to-white">
+      <div className={`min-h-[60vh] flex items-center justify-center transition-colors duration-300 ${
+        darkMode ? 'bg-gradient-to-br from-gray-900 to-gray-800' : 'bg-gradient-to-br from-green-50 to-white'
+      }`}>
         <div className="relative">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-green-200"></div>
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600 absolute top-0"></div>
@@ -80,11 +82,17 @@ const DashboardPage = () => {
 
   if (showAllPackages) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100">
+      <div className={`min-h-screen transition-colors duration-300 ${
+        darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-green-50 via-white to-green-100'
+      }`}>
         <div className="page-padding fade-in py-8">
           <button 
             onClick={() => setShowAllPackages(false)}
-            className="mb-8 flex items-center gap-2 px-6 py-3 bg-white text-green-600 hover:bg-green-600 hover:text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+            className={`mb-8 flex items-center gap-2 px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 font-semibold ${
+              darkMode 
+                ? 'bg-gray-800 text-green-400 hover:bg-green-600 hover:text-white' 
+                : 'bg-white text-green-600 hover:bg-green-600 hover:text-white'
+            }`}
           >
             <FiChevronLeft className="text-xl" /> Back to Dashboard
           </button>
@@ -93,7 +101,9 @@ const DashboardPage = () => {
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div key={item} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <div key={item} className={`group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
+                darkMode ? 'bg-gray-800' : 'bg-white'
+              }`}>
                 <div className="relative overflow-hidden">
                   <img 
                     src={`https://images.unsplash.com/photo-${1500000000000 + item * 10000}?w=400&h=250&fit=crop`}
@@ -108,8 +118,12 @@ const DashboardPage = () => {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-gray-800">Amazing Tour Package {item}</h3>
-                  <p className="text-gray-600 mb-4 flex items-center gap-2">
+                  <h3 className={`text-xl font-bold mb-2 ${
+                    darkMode ? 'text-white' : 'text-gray-800'
+                  }`}>Amazing Tour Package {item}</h3>
+                  <p className={`mb-4 flex items-center gap-2 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     <FiCalendar className="text-green-500" /> 7 Days • 6 Nights
                   </p>
                   <div className="flex items-center gap-1 mb-4">
@@ -137,7 +151,9 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="fade-in bg-gradient-to-br from-green-50 via-white to-green-100 min-h-screen">
+    <div className={`fade-in min-h-screen transition-colors duration-300 ${
+      darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-green-50 via-white to-green-100'
+    }`}>
       {/* Hero Section with Welcome */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-green-700 to-green-800 opacity-90"></div>
@@ -189,17 +205,25 @@ const DashboardPage = () => {
       {/* Popular Packages Section */}
       <div className="page-padding py-16">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent">
+          <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${
+            darkMode 
+              ? 'bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent' 
+              : 'bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent'
+          }`}>
             Popular Tour Packages
           </h2>
-          <p className="text-gray-600 text-lg">Discover amazing destinations around the world</p>
+          <p className={`text-lg ${
+            darkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>Discover amazing destinations around the world</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {popularPackages.map((pkg) => (
             <div 
               key={pkg.id}
               onClick={() => handlePackageClick(pkg)}
-              className="group relative cursor-pointer overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 bg-white"
+              className={`group relative cursor-pointer overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 ${
+                darkMode ? 'bg-gray-800' : 'bg-white'
+              }`}
             >
               <div className="relative h-96 overflow-hidden">
                 <img 
@@ -282,10 +306,16 @@ const DashboardPage = () => {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent mb-2">
+              <h2 className={`text-3xl md:text-4xl font-bold mb-2 ${
+                darkMode 
+                  ? 'bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent' 
+                  : 'bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent'
+              }`}>
                 Your Trips
               </h2>
-              <p className="text-gray-600">Manage and explore your travel plans</p>
+              <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+                Manage and explore your travel plans
+              </p>
             </div>
             <Link 
               to="/create-trip" 
@@ -303,12 +333,26 @@ const DashboardPage = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-3xl p-12 text-center shadow-xl border-2 border-dashed border-gray-300">
-              <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-                <FiCompass className="text-5xl text-green-600" />
+            <div className={`rounded-3xl p-12 text-center shadow-xl border-2 border-dashed ${
+              darkMode 
+                ? 'bg-gray-800 border-gray-700' 
+                : 'bg-white border-gray-300'
+            }`}>
+              <div className={`rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 ${
+                darkMode 
+                  ? 'bg-gradient-to-br from-green-900 to-green-800' 
+                  : 'bg-gradient-to-br from-green-100 to-green-200'
+              }`}>
+                <FiCompass className={`text-5xl ${
+                  darkMode ? 'text-green-400' : 'text-green-600'
+                }`} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-3">No Trips Yet</h3>
-              <p className="text-gray-600 mb-8 text-lg">Start planning your first adventure today!</p>
+              <h3 className={`text-2xl font-bold mb-3 ${
+                darkMode ? 'text-white' : 'text-gray-800'
+              }`}>No Trips Yet</h3>
+              <p className={`mb-8 text-lg ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>Start planning your first adventure today!</p>
               <Link 
                 to="/create-trip" 
                 className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"

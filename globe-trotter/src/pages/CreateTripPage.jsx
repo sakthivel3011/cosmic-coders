@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTrips } from '../hooks/useTrips';
+import { useAuth } from '../hooks/useAuth';
 import { FiCalendar, FiMap, FiDollarSign, FiGlobe, FiFileText, FiCheckCircle, FiArrowRight, FiUsers, FiPhone } from 'react-icons/fi';
 import { MdFlightTakeoff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 
 const CreateTripPage = () => {
+  const { darkMode } = useAuth();
   const [tripName, setTripName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -55,25 +57,45 @@ const CreateTripPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-white py-12 px-4 sm:px-6 lg:px-8">
+    <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+      darkMode 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
+        : 'bg-gradient-to-br from-green-50 via-emerald-50 to-white'
+    }`}>
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-10 animate-fade-in">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-6 shadow-xl transform hover:scale-110 transition-transform duration-300">
+          <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 shadow-xl transform hover:scale-110 transition-transform duration-300 ${
+            darkMode 
+              ? 'bg-gradient-to-br from-green-600 to-emerald-700' 
+              : 'bg-gradient-to-br from-green-500 to-emerald-600'
+          }`}>
             <MdFlightTakeoff className="text-white text-4xl" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent mb-3">
+          <h1 className={`text-4xl md:text-5xl font-extrabold mb-3 ${
+            darkMode 
+              ? 'bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent' 
+              : 'bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text text-transparent'
+          }`}>
             Plan Your Next Adventure
           </h1>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto ${
+            darkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Create a new trip and start your journey towards unforgettable memories
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-2xl p-8 md:p-10 backdrop-blur-lg bg-opacity-95 border border-gray-100 space-y-8 transform hover:shadow-3xl transition-all duration-300">
+        <form onSubmit={handleSubmit} className={`rounded-3xl shadow-2xl p-8 md:p-10 backdrop-blur-lg space-y-8 transform hover:shadow-3xl transition-all duration-300 ${
+          darkMode 
+            ? 'bg-gray-800 bg-opacity-95 border border-gray-700' 
+            : 'bg-white bg-opacity-95 border border-gray-100'
+        }`}>
           {/* Trip Name */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiGlobe className="text-white text-sm" />
               </div>
@@ -83,7 +105,11 @@ const CreateTripPage = () => {
               type="text"
               value={tripName}
               onChange={(e) => setTripName(e.target.value)}
-              className="w-full px-5 py-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-gray-50 focus:bg-white placeholder-gray-400"
+              className={`w-full px-5 py-4 text-lg border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 ${
+                darkMode 
+                  ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400 hover:border-gray-500 focus:bg-gray-700 focus:ring-green-900' 
+                  : 'border-gray-200 bg-gray-50 hover:border-gray-300 focus:bg-white placeholder-gray-400 focus:ring-green-100'
+              }`}
               placeholder="e.g., Europe Summer Vacation 2024"
               required
             />
@@ -91,7 +117,9 @@ const CreateTripPage = () => {
           {/* Date Range */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="group">
-              <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+              <label className={`block text-sm font-semibold mb-3 flex items-center ${
+                darkMode ? 'text-gray-200' : 'text-gray-800'
+              }`}>
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                   <FiCalendar className="text-white text-sm" />
                 </div>
@@ -107,15 +135,21 @@ const CreateTripPage = () => {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-white text-green-600 font-medium"
-                  style={{ colorScheme: 'light' }}
+                  className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 font-medium ${
+                    darkMode 
+                      ? 'border-gray-600 bg-gray-700 text-green-400 hover:border-gray-500 focus:ring-green-900' 
+                      : 'border-gray-200 bg-white text-green-600 hover:border-gray-300 focus:ring-green-100'
+                  }`}
+                  style={{ colorScheme: darkMode ? 'dark' : 'light' }}
                   required
                 />
               </div>
             </div>
 
             <div className="group">
-              <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+              <label className={`block text-sm font-semibold mb-3 flex items-center ${
+                darkMode ? 'text-gray-200' : 'text-gray-800'
+              }`}>
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                   <FiCalendar className="text-white text-sm" />
                 </div>
@@ -131,8 +165,12 @@ const CreateTripPage = () => {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-white text-green-600 font-medium"
-                  style={{ colorScheme: 'light' }}
+                  className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 font-medium ${
+                    darkMode 
+                      ? 'border-gray-600 bg-gray-700 text-green-400 hover:border-gray-500 focus:ring-green-900' 
+                      : 'border-gray-200 bg-white text-green-600 hover:border-gray-300 focus:ring-green-100'
+                  }`}
+                  style={{ colorScheme: darkMode ? 'dark' : 'light' }}
                   required
                 />
               </div>
@@ -140,19 +178,27 @@ const CreateTripPage = () => {
           </div>
           {/* Budget */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiDollarSign className="text-white text-sm" />
               </div>
               Estimated Budget (₹)
             </label>
             <div className="relative">
-              <FiDollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-green-500 transition-colors" />
+              <FiDollarSign className={`absolute left-4 top-1/2 transform -translate-y-1/2 group-hover:text-green-500 transition-colors ${
+                darkMode ? 'text-gray-400' : 'text-gray-400'
+              }`} />
               <input
                 type="number"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full pl-12 pr-16 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-gray-50 focus:bg-white placeholder-gray-400 text-lg"
+                className={`w-full pl-12 pr-16 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 text-lg ${
+                  darkMode 
+                    ? 'border-gray-600 bg-gray-700 text-white hover:border-gray-500 focus:bg-gray-700 focus:ring-green-900 placeholder-gray-400' 
+                    : 'border-gray-200 bg-gray-50 hover:border-gray-300 focus:bg-white focus:ring-green-100 placeholder-gray-400'
+                }`}
                 placeholder="50000"
                 min="0"
               />
@@ -160,19 +206,27 @@ const CreateTripPage = () => {
           </div>
           {/* Number of Persons */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiUsers className="text-white text-sm" />
               </div>
               Number of Persons
             </label>
             <div className="relative">
-              <FiUsers className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-green-500 transition-colors" />
+              <FiUsers className={`absolute left-4 top-1/2 transform -translate-y-1/2 group-hover:text-green-500 transition-colors ${
+                darkMode ? 'text-gray-400' : 'text-gray-400'
+              }`} />
               <input
                 type="number"
                 value={members}
                 onChange={(e) => setMembers(e.target.value)}
-                className="w-full pl-12 pr-16 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-gray-50 focus:bg-white placeholder-gray-400 text-lg"
+                className={`w-full pl-12 pr-16 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 text-lg ${
+                  darkMode 
+                    ? 'border-gray-600 bg-gray-700 text-white hover:border-gray-500 focus:bg-gray-700 focus:ring-green-900 placeholder-gray-400' 
+                    : 'border-gray-200 bg-gray-50 hover:border-gray-300 focus:bg-white focus:ring-green-100 placeholder-gray-400'
+                }`}
                 placeholder="2"
                 min="1"
               />
@@ -181,19 +235,27 @@ const CreateTripPage = () => {
           
           {/* Phone Number */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiPhone className="text-white text-sm" />
               </div>
               Phone Number
             </label>
             <div className="relative">
-              <FiPhone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-green-500 transition-colors" />
+              <FiPhone className={`absolute left-4 top-1/2 transform -translate-y-1/2 group-hover:text-green-500 transition-colors ${
+                darkMode ? 'text-gray-400' : 'text-gray-400'
+              }`} />
               <input
                 type="tel"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-gray-50 focus:bg-white placeholder-gray-400 text-lg"
+                className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 text-lg ${
+                  darkMode 
+                    ? 'border-gray-600 bg-gray-700 text-white hover:border-gray-500 focus:bg-gray-700 focus:ring-green-900 placeholder-gray-400' 
+                    : 'border-gray-200 bg-gray-50 hover:border-gray-300 focus:bg-white focus:ring-green-100 placeholder-gray-400'
+                }`}
                 placeholder="+91 9876543210"
               />
             </div>
@@ -201,7 +263,9 @@ const CreateTripPage = () => {
           
           {/* Vacation Type */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiMap className="text-white text-sm" />
               </div>
@@ -212,16 +276,18 @@ const CreateTripPage = () => {
               <select
                 value={vacationType}
                 onChange={(e) => setVacationType(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-white text-green-600 font-medium text-lg appearance-none cursor-pointer"
-                style={{
-                  colorScheme: 'light'
-                }}
+                className={`w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 font-medium text-lg appearance-none cursor-pointer ${
+                  darkMode 
+                    ? 'border-gray-600 bg-gray-700 text-green-400 hover:border-gray-500 focus:ring-green-900' 
+                    : 'border-gray-200 bg-white text-green-600 hover:border-gray-300 focus:ring-green-100'
+                }`}
+                style={{ colorScheme: darkMode ? 'dark' : 'light' }}
               >
-                <option value="" className="text-gray-400">Select vacation type</option>
-                <option value="honeymoon" className="text-green-600 bg-white">Honeymoon</option>
-                <option value="friends-trip" className="text-green-600 bg-white">Friends Trip</option>
-                <option value="family-trip" className="text-green-600 bg-white">Family Trip</option>
-                <option value="corporate-trip" className="text-green-600 bg-white">Corporate Trip</option>
+                <option value="" className={darkMode ? 'text-gray-400' : 'text-gray-400'}>Select vacation type</option>
+                <option value="honeymoon" className={darkMode ? 'text-green-400 bg-gray-700' : 'text-green-600 bg-white'}>Honeymoon</option>
+                <option value="friends-trip" className={darkMode ? 'text-green-400 bg-gray-700' : 'text-green-600 bg-white'}>Friends Trip</option>
+                <option value="family-trip" className={darkMode ? 'text-green-400 bg-gray-700' : 'text-green-600 bg-white'}>Family Trip</option>
+                <option value="corporate-trip" className={darkMode ? 'text-green-400 bg-gray-700' : 'text-green-600 bg-white'}>Corporate Trip</option>
               </select>
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
                 <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,26 +299,38 @@ const CreateTripPage = () => {
           
           {/* Description */}
           <div className="group">
-            <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+            <label className={`block text-sm font-semibold mb-3 flex items-center ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
                 <FiFileText className="text-white text-sm" />
               </div>
               Description
-              <span className="ml-2 text-xs font-normal text-gray-500">(Optional)</span>
+              <span className={`ml-2 text-xs font-normal ${
+                darkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>(Optional)</span>
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 hover:border-gray-300 bg-gray-50 focus:bg-white placeholder-gray-400 resize-none"
+              className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 transition-all duration-300 resize-none ${
+                darkMode 
+                  ? 'border-gray-600 bg-gray-700 text-white hover:border-gray-500 focus:bg-gray-700 focus:ring-green-900 placeholder-gray-400' 
+                  : 'border-gray-200 bg-gray-50 hover:border-gray-300 focus:bg-white focus:ring-green-100 placeholder-gray-400'
+              }`}
               placeholder="Describe your trip plans, destinations, activities you want to do..."
               rows="4"
             />
-            <div className="mt-2 text-right text-xs text-gray-500">
+            <div className={`mt-2 text-right text-xs ${
+              darkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               {description.length} characters
             </div>
           </div>
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t-2 border-gray-100">
+          <div className={`flex flex-col sm:flex-row gap-4 pt-6 border-t-2 ${
+            darkMode ? 'border-gray-700' : 'border-gray-100'
+          }`}>
             <button
               type="submit"
               disabled={loading}
@@ -279,7 +357,11 @@ const CreateTripPage = () => {
             <button
               type="button"
               onClick={() => navigate('/dashboard')}
-              className="flex-1 bg-gray-100 text-gray-700 font-semibold py-4 px-8 rounded-xl border-2 border-gray-200 hover:bg-gray-200 hover:border-gray-300 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+              className={`flex-1 font-semibold py-4 px-8 rounded-xl border-2 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg ${
+                darkMode 
+                  ? 'bg-gray-700 text-gray-200 border-gray-600 hover:bg-gray-600 hover:border-gray-500' 
+                  : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:border-gray-300'
+              }`}
             >
               Cancel
             </button>
@@ -288,26 +370,50 @@ const CreateTripPage = () => {
 
         {/* Tips Section */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 transform hover:-translate-y-2 duration-300">
+          <div className={`rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border transform hover:-translate-y-2 duration-300 ${
+            darkMode 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
               <span className="text-2xl">🎯</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Set Clear Goals</h3>
-            <p className="text-sm text-gray-600">Define what you want to achieve and experience on this trip.</p>
+            <h3 className={`font-bold mb-2 ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>Set Clear Goals</h3>
+            <p className={`text-sm ${
+              darkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Define what you want to achieve and experience on this trip.</p>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 transform hover:-translate-y-2 duration-300">
+          <div className={`rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border transform hover:-translate-y-2 duration-300 ${
+            darkMode 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-700 rounded-xl flex items-center justify-center mb-4 shadow-md">
               <span className="text-2xl">💰</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Budget Wisely</h3>
-            <p className="text-sm text-gray-600">Add 10-15% buffer for unexpected expenses and spontaneous fun.</p>
+            <h3 className={`font-bold mb-2 ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>Budget Wisely</h3>
+            <p className={`text-sm ${
+              darkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Add 10-15% buffer for unexpected expenses and spontaneous fun.</p>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 transform hover:-translate-y-2 duration-300">
+          <div className={`rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border transform hover:-translate-y-2 duration-300 ${
+            darkMode 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-100'
+          }`}>
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
               <span className="text-2xl">📝</span>
             </div>
-            <h3 className="font-bold text-gray-800 mb-2">Plan Ahead</h3>
-            <p className="text-sm text-gray-600">Book accommodations and activities early for better deals.</p>
+            <h3 className={`font-bold mb-2 ${
+              darkMode ? 'text-gray-200' : 'text-gray-800'
+            }`}>Plan Ahead</h3>
+            <p className={`text-sm ${
+              darkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Book accommodations and activities early for better deals.</p>
           </div>
         </div>
       </div>
