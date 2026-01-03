@@ -2,5 +2,213 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Global Styles */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
+  html {
+    scroll-behavior: smooth;
+  }
 
+  body {
+    @apply bg-gt-bg-main text-gt-text-primary font-sans;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gt-bg-light;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gt-secondary rounded-full;
+  }
+}
+
+@layer components {
+  /* ===== Responsive Container ===== */
+  .container-responsive {
+    @apply w-full px-4 sm:px-6 lg:px-8 mx-auto;
+    max-width: 100%;
+  }
+
+  .container-fluid {
+    @apply w-full px-4;
+  }
+
+  /* ===== Button Styles ===== */
+  .btn-primary {
+    @apply bg-gt-primary hover:bg-gt-secondary text-white font-semibold 
+           py-3 px-6 rounded-gt-lg transition-all duration-300 
+           hover:shadow-lg focus:outline-none focus:ring-2 
+           focus:ring-gt-accent focus:ring-opacity-50 
+           active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-white border border-gt-primary text-gt-primary 
+           hover:bg-gt-soft font-semibold py-3 px-6 rounded-gt-lg 
+           transition-all duration-300 hover:shadow;
+  }
+
+  /* ===== Card Styles ===== */
+  .card-base {
+    @apply bg-white rounded-gt-xl shadow-gt-soft border 
+           border-gray-100 hover:shadow-gt-card transition-all 
+           duration-300;
+  }
+
+  .card-padded {
+    @apply card-base p-6;
+  }
+
+  /* ===== Form Styles ===== */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-gt-lg border 
+           border-gray-300 focus:border-gt-primary 
+           focus:ring-2 focus:ring-gt-soft 
+           focus:outline-none transition-all duration-300 
+           placeholder:text-gray-400;
+  }
+
+  /* ===== Grid Layouts ===== */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+           xl:grid-cols-4 gap-6;
+  }
+
+  .grid-trip-cards {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  /* ===== Typography ===== */
+  .heading-primary {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold 
+           text-gt-primary mb-4;
+  }
+
+  .heading-secondary {
+    @apply text-xl md:text-2xl font-semibold 
+           text-gt-secondary mb-3;
+  }
+
+  /* ===== Layout Components ===== */
+  .section-padding {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
+  .page-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-6 sm:py-8;
+  }
+
+  /* ===== Mobile First Responsive ===== */
+  .mobile-menu {
+    @apply fixed inset-0 z-50 bg-white transform 
+           transition-transform duration-300 ease-in-out;
+  }
+
+  .desktop-only {
+    @apply hidden lg:block;
+  }
+
+  .mobile-only {
+    @apply block lg:hidden;
+  }
+
+  /* ===== Trip Components ===== */
+  .trip-card {
+    @apply card-base p-4 sm:p-6 cursor-pointer 
+           hover:translate-y-[-4px];
+  }
+
+  .activity-card {
+    @apply bg-gt-bg-section rounded-lg p-4 border-l-4 
+           border-gt-accent mb-3;
+  }
+
+  /* ===== Budget Components ===== */
+  .budget-card {
+    @apply card-base p-6 bg-gradient-to-r from-gt-bg-light 
+           to-white;
+  }
+
+  /* ===== Dashboard Widgets ===== */
+  .dashboard-widget {
+    @apply card-base p-5 sm:p-6;
+  }
+
+  /* ===== Responsive Tables ===== */
+  .responsive-table {
+    @apply w-full overflow-x-auto;
+  }
+
+  .table-base {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+}
+
+/* ===== Animation Classes ===== */
+@layer utilities {
+  .fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .scale-hover {
+    @apply hover:scale-[1.02] transition-transform duration-300;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* ===== Dark Mode Support (Optional) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+  
+  .dark-mode-card {
+    @apply bg-gray-800 text-white border-gray-700;
+  }
+}
