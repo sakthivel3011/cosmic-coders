@@ -19,7 +19,13 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let analytics = null;
+
+try {
+  analytics = getAnalytics(app);
+} catch (error) {
+  console.warn('Analytics initialization failed:', error);
+}
 
 // Export for use in other files
 export { app, analytics };
@@ -31,13 +37,15 @@ const reportWebVitals = (metric) => {
   }
   
   // Send to analytics
-  const { name, delta, value, id } = metric;
-  analytics.logEvent('web_vitals', {
-    name,
-    delta: Math.round(delta),
-    value: Math.round(value),
-    id,
-  });
+  if (analytics) {
+    const { name, delta, value, id } = metric;
+    analytics.logEvent('web_vitals', {
+      name,
+      delta: Math.round(delta),
+      value: Math.round(value),
+      id,
+    });
+  }
 };
 
 // Error boundary
@@ -53,10 +61,12 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('React Error Boundary caught an error:', error, errorInfo);
-    analytics.logEvent('error', {
-      error: error.toString(),
-      errorInfo: JSON.stringify(errorInfo),
-    });
+    if (analytics) {
+      analytics.logEvent('error', {
+        error: error.toString(),
+        errorInfo: JSON.stringify(errorInfo),
+      });
+    }
   }
 
   render() {
