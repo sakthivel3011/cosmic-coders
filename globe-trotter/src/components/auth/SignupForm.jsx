@@ -66,7 +66,7 @@ const SignupForm = ({ onSuccess }) => {
     setLoading(true);
 
     try {
-      await signup(formData.email, formData.password);
+      await signup(formData.email, formData.password, formData.name);
       
       // You can add additional user profile data to Firestore here
       toast.success('Account created successfully!');
