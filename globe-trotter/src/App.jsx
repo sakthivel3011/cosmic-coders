@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+=======
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+>>>>>>> c1a9105c7c79c741a573b066052f95f621c86c25
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './hooks/useAuth';
 import Header from './components/layout/Header';
@@ -197,3 +203,4 @@ function App() {
 }
 
 export default App;
+

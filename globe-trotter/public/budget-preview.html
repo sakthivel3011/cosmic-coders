@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobeTrotter - Budget Analysis (Preview)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gt-primary': '#1b5e20',
+                        'gt-secondary': '#2e7d32',
+                        'gt-accent': '#43a047',
+                        'gt-light': '#81c784',
+                        'gt-soft': '#c8e6c9',
+                        'gt-bg-light': '#f4fdf6',
+                        'gt-bg-section': '#e8f5e9',
+                        'gt-bg-dark': '#102a13',
+                        'gt-border': '#d0e8d4',
+                        'gt-error': '#c62828',
+                        'gt-warning': '#f9a825',
+                        'gt-success': '#2e7d32'
+                    },
+                    boxShadow: {
+                        'gt-soft': '0 4px 12px rgba(0, 0, 0, 0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gt-bg-light min-h-screen p-4 md:p-6">
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <header class="bg-white rounded-xl shadow-gt-soft p-4 md:p-6 mb-6 md:mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <!-- Logo and Title -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-gt-primary p-3 rounded-lg">
+                        <i class="fas fa-globe-americas text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gt-primary">GlobeTrotter</h1>
+                        <p class="text-gray-600 text-sm md:text-base">Trip Budget Analysis Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Trip Info -->
+                <div class="bg-gt-bg-section p-4 md:p-5 rounded-lg border-l-4 border-gt-accent w-full md:w-auto">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div>
+                            <h2 class="text-lg md:text-xl font-bold text-gray-800">Europe Adventure 2024</h2>
+                            <div class="flex flex-wrap gap-3 md:gap-4 mt-2">
+                                <span class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-calendar-alt text-gt-accent"></i>
+                                    <span class="text-sm">Mar 15 - Mar 30, 2024</span>
+                                </span>
+                                <span class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-map-marker-alt text-gt-accent"></i>
+                                    <span class="text-sm">4 Cities</span>
+                                </span>
+                                <span class="flex items-center gap-2 text-gray-600">
+                                    <i class="fas fa-users text-gt-accent"></i>
+                                    <span class="text-sm">2 Travelers</span>
+                                </span>
+                            </div>
+                        </div>
+                        <button class="bg-gt-accent text-white px-4 py-2 rounded-lg hover:bg-gt-secondary transition-colors flex items-center gap-2">
+                            <i class="fas fa-edit"></i>
+                            Edit Trip
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Budget Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+            <!-- Total Budget Card -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 border-t-4 border-gt-primary hover:transform hover:-translate-y-1 transition-transform">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-600 font-medium">Total Budget</h3>
+                    <i class="fas fa-wallet text-gt-primary text-xl"></i>
+                </div>
+                <p class="text-3xl md:text-4xl font-bold text-gt-primary mb-2">$3,500</p>
+                <p class="text-gray-500 text-sm">Planned amount</p>
+            </div>
+
+            <!-- Spent Budget Card -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 border-t-4 border-gt-error hover:transform hover:-translate-y-1 transition-transform">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-600 font-medium">Spent</h3>
+                    <i class="fas fa-money-bill-wave text-gt-error text-xl"></i>
+                </div>
+                <p class="text-3xl md:text-4xl font-bold text-gt-error mb-2">$1,845</p>
+                <p class="text-gray-500 text-sm">52% of budget</p>
+            </div>
+
+            <!-- Remaining Budget Card -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 border-t-4 border-blue-500 hover:transform hover:-translate-y-1 transition-transform">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-600 font-medium">Remaining</h3>
+                    <i class="fas fa-piggy-bank text-blue-500 text-xl"></i>
+                </div>
+                <p class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">$1,655</p>
+                <p class="text-gray-500 text-sm">Available to spend</p>
+            </div>
+
+            <!-- Daily Average Card -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 border-t-4 border-gt-warning hover:transform hover:-translate-y-1 transition-transform">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-600 font-medium">Daily Average</h3>
+                    <i class="fas fa-chart-line text-gt-warning text-xl"></i>
+                </div>
+                <p class="text-3xl md:text-4xl font-bold text-gt-warning mb-2">$123</p>
+                <p class="text-gray-500 text-sm">Per day per person</p>
+            </div>
+        </div>
+
+        <!-- Charts and Breakdown Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
+            <!-- Expense Distribution Chart -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 md:p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-gt-accent"></i>
+                        Expense Distribution
+                    </h3>
+                    <select class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                        <option>By Category</option>
+                        <option>By Day</option>
+                        <option>By City</option>
+                    </select>
+                </div>
+                <div class="h-64 md:h-72">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Budget Progress -->
+            <div class="bg-white rounded-xl shadow-gt-soft p-5 md:p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-chart-bar text-gt-accent"></i>
+                        Budget Progress
+                    </h3>
+                    <span class="text-sm text-gray-500">15 days total</span>
+                </div>
+                
+                <!-- Budget Progress Bars -->
+                <div class="space-y-5">
+                    <!-- Accommodation -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-700 font-medium">Accommodation</span>
+                            <span class="text-gray-600">$850 / $1,000</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-gt-primary h-2.5 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>Spent: $850</span>
+                            <span>Remaining: $150</span>
+                        </div>
+                    </div>
+
+                    <!-- Transportation -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-700 font-medium">Transportation</span>
+                            <span class="text-gray-600">$420 / $600</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-500 h-2.5 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>Spent: $420</span>
+                            <span>Remaining: $180</span>
+                        </div>
+                    </div>
+
+                    <!-- Activities -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-700 font-medium">Activities</span>
+                            <span class="text-gray-600">$300 / $800</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-purple-500 h-2.5 rounded-full" style="width: 37.5%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>Spent: $300</span>
+                            <span>Remaining: $500</span>
+                        </div>
+                    </div>
+
+                    <!-- Food & Dining -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-700 font-medium">Food & Dining</span>
+                            <span class="text-gray-600">$275 / $700</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-gt-warning h-2.5 rounded-full" style="width: 39%"></div>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>Spent: $275</span>
+                            <span>Remaining: $425</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Breakdown -->
+        <div class="bg-white rounded-xl shadow-gt-soft p-5 md:p-6 mb-6 md:mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-list-alt text-gt-accent"></i>
+                    Detailed Expense Breakdown
+                </h3>
+                <button class="bg-gt-accent text-white px-4 py-2 rounded-lg hover:bg-gt-secondary transition-colors flex items-center gap-2">
+                    <i class="fas fa-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Table for larger screens -->
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gt-bg-section">
+                            <th class="text-left p-3 text-gray-700 font-semibold">Category</th>
+                            <th class="text-left p-3 text-gray-700 font-semibold">Planned</th>
+                            <th class="text-left p-3 text-gray-700 font-semibold">Spent</th>
+                            <th class="text-left p-3 text-gray-700 font-semibold">Remaining</th>
+                            <th class="text-left p-3 text-gray-700 font-semibold">Status</th>
+                            <th class="text-left p-3 text-gray-700 font-semibold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                            <td class="p-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-gt-soft flex items-center justify-center">
+                                        <i class="fas fa-bed text-gt-primary"></i>
+                                    </div>
+                                    <span>Accommodation</span>
+                                </div>
+                            </td>
+                            <td class="p-3 font-medium">$1,000</td>
+                            <td class="p-3 font-medium">$850</td>
+                            <td class="p-3 font-medium text-blue-600">$150</td>
+                            <td class="p-3">
+                                <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
+                                    On Track
+                                </span>
+                            </td>
+                            <td class="p-3">
+                                <button class="text-gt-accent hover:text-gt-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+[truncated]
+<!-- Charts script continues at the bottom of file -->
+<script>
+        // Initialize Expense Distribution Chart
+        const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+        const expenseChart = new Chart(expenseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Accommodation', 'Transportation', 'Activities', 'Food & Dining', 'Miscellaneous'],
+                datasets: [{
+                    data: [850, 420, 300, 275, 100],
+                    backgroundColor: [
+                        '#1b5e20', // gt-primary
+                        '#2196f3', // blue
+                        '#9c27b0', // purple
+                        '#ff9800', // yellow/orange
+                        '#795548'  // brown
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += '$' + context.raw;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+</script>
+</body>
+</html>
