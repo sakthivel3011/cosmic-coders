@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "dev": "cd globe-trotter && npm run dev",
+    "build": "cd globe-trotter && npm run build"
+  },
   "dependencies": {
     "react-router-dom": "^7.11.0"
   }
