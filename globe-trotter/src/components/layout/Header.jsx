@@ -27,7 +27,8 @@ const Header = () => {
   const navItems = [
     { title: 'Dashboard', icon: <MdDashboard />, path: '/dashboard' },
     { title: 'Create Trip', icon: <FiPlusCircle />, path: '/create-trip', badge: 'New' },
-    { title: 'Explore', icon: <MdOutlineTravelExplore />, path: '/explore', badge: 'Hot' }
+    { title: 'Explore', icon: <MdOutlineTravelExplore />, path: '/explore', badge: 'Hot' },
+    { title: 'Shared Trips', icon: <FiShare2 />, path: '/shared' }
   ];
 
   return (
