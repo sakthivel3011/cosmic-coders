@@ -158,7 +158,7 @@ const DashboardPage = () => {
 
       {/* Popular Packages Section */}
       <div className="page-padding py-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Popular Tour Packages</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">Popular Tour Packages</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {popularPackages.map((pkg) => (
             <div 
@@ -172,10 +172,10 @@ const DashboardPage = () => {
                   alt={pkg.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-70"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2">{pkg.title}</h3>
-                  <div className="inline-block bg-yellow-400 text-black font-bold px-4 py-2 text-lg">
+                  <h3 className="text-2xl md:text-3xl font-bold mb-2 text-gray-800 drop-shadow-lg">{pkg.title}</h3>
+                  <div className="inline-block bg-yellow-400 text-black font-bold px-4 py-2 text-lg shadow-md">
                     {pkg.tours} TOURS
                   </div>
                 </div>
